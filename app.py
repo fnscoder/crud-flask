@@ -8,10 +8,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
 
 
-#Models
 class Pessoa(db.Model):
 
-    __tablename__= 'cliente'
+    __tablename__ = 'cliente'
 
     _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String)
@@ -25,17 +24,19 @@ class Pessoa(db.Model):
         self.cpf = cpf
         self.email = email
 
+
 db.create_all()
 
 
-#rotas, urls
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 @app.route("/cadastrar")
 def cadastrar():
     return render_template("cadastro.html")
+
 
 @app.route("/cadastro", methods=['GET', 'POST'])
 def cadastro():
@@ -52,10 +53,12 @@ def cadastro():
 
     return redirect(url_for("index"))
 
+
 @app.route("/lista")
 def lista():
     pessoas = Pessoa.query.all()
     return render_template("lista.html", pessoas=pessoas)
+
 
 @app.route("/excluir/<int:id>")
 def excluir(id):
@@ -66,6 +69,7 @@ def excluir(id):
 
     pessoas = Pessoa.query.all()
     return render_template("lista.html", pessoas=pessoas)
+
 
 @app.route("/atualizar/<int:id>", methods=['GET', 'POST'])
 def atualizar(id):
@@ -89,5 +93,6 @@ def atualizar(id):
 
     return render_template("atualizar.html", pessoa=pessoa)
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     app.run(debug=True)
